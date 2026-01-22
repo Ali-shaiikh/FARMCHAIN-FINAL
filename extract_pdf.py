@@ -11,7 +11,6 @@ except ImportError:
         print("Error: Please install pdfplumber or PyPDF2: pip install pdfplumber", file=sys.stderr)
         sys.exit(1)
 
-# 🧪 OCR TESTING HOOKS - TEMPORARY
 try:
     import pytesseract
     from PIL import Image
@@ -39,7 +38,7 @@ def extract_text_pypdf2(file_path):
     return text
 
 def extract_text_ocr_fallback(file_path):
-    """🧪 TEMPORARY: Fallback OCR extraction for PDF pages"""
+    """Fallback OCR extraction for PDF pages"""
     if not OCR_AVAILABLE:
         return ""
     
@@ -71,21 +70,12 @@ if __name__ == "__main__":
         sys.exit(1)
     
     try:
-        # 🧪 TESTING HOOK: Extract text using available method
         if 'pdfplumber' in sys.modules or 'pdfplumber' in dir():
             text = extract_text_pdfplumber(file_path)
         else:
             text = extract_text_pypdf2(file_path)
-        
-        # 🧪 TESTING HOOK: Debug output (TEMPORARY - EXACT FORMAT)
-        print("----------------------------------------", file=sys.stderr)
-        print("FILE TYPE: PDF", file=sys.stderr)
-        print(f"EXTRACTED TEXT LENGTH: {len(text)}", file=sys.stderr)
-        print("EXTRACTED TEXT (first 1500 chars):", file=sys.stderr)
-        print(text[:1500] if text else "[EMPTY]", file=sys.stderr)
-        print("----------------------------------------", file=sys.stderr)
-        
-        # 🧪 TESTING HOOK: OCR Fallback if extraction is empty or too short
+
+        # OCR fallback if extraction is empty or too short
         if len(text.strip()) < 100:
             print("⚠️  WARNING: Extracted text too short or empty. Attempting OCR fallback...", file=sys.stderr)
             ocr_text = extract_text_ocr_fallback(file_path)
